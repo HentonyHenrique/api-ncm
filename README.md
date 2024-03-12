@@ -17,16 +17,18 @@ npm init -y
 ---
 
 A estrutura do nosso projeto será assim:
+```
 routes/
   apiRoutes.js
 utils/
   apiNCM.js
 index.js
 package.json
-
+```
 ---
 
 Essas serão as dependências que utilizaremos no projeto:
+
 ```
 npm install express --save
 npm install axios
@@ -35,9 +37,11 @@ npm install body-parser
 ---
 
 Primeiro vamos criar nosso arquivo utils/apiNCM.js
+
+```
 const axios = require('axios');
 
-```async function consultarNCM() {
+async function consultarNCM() {
     try {
         // Indica o url do portal Siscomex que retorna um Json
         const response = await axios.get('https://portalunico.siscomex.gov.br/classif/api/publico/nomenclatura/download/json?perfil=PUBLICO');
@@ -57,7 +61,11 @@ const axios = require('axios');
 }
 //Exporta o módulo
 module.exports = consultarNCM;
+
+```
 Em seguida, precisamos criar nossa rota para acessar nossa api em routes/apiRoutes.js:
+
+```
 const express = require('express');
 const router = express.Router();
 //Chamamos nosso módulo apiNCM.js
@@ -72,16 +80,17 @@ router.get('/ncm', async (req, res) => {
         res.status(500).json({ error: 'Erro ao consultar o URL});
     }
 });
-```
+
 //Exportamos o módulo 
 
 module.exports = router;
-
+```
 ---
 
 Por último, criaremos nosso arquivo principal, o index.js que fica na raiz do nosso projeto.
 
-```const express = require('express');
+```
+const express = require('express');
 const bodyParser = require('body-parser');
 //carregamos nossa rota
 const apiRoutes = require('./routes/apiRoutes');
@@ -97,7 +106,9 @@ app.use(bodyParser.json());
 app.use('/api', apiRoutes);
 
 app.listen(PORT, () => console.log(`Servidor rodando na porta ${PORT}`));
-
 ```
+---
 
-Após isso, podemos acessar nossa rota pelo navegador. ```localhost:3300/api/ncm```
+Após isso, podemos acessar nossa rota pelo navegador. localhost:3300/api/ncm
+
+---
